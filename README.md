@@ -4,7 +4,7 @@ This project is used for the needs of improvement of volcano eruption detection 
 The idea:<br>
 Input consists of 2 types of images.<br>Ones are just images of volcano:<br>
 ![Иллюстрация к проекту](https://github.com/aANAESTHESIAa/CCFEBRAS-VolcanoAlgorithmAnalisys/raw/master/KLYU2_20210224095601_21355477.jpg)<br>
-And others are the result of volcano eruption detection algorithm where the field of eruption is supposed to be highlighted:<br>
+And others are the result of volcano eruption detection algorithm where the field of eruption is highlighted:<br>
 ![Иллюстрация к проекту](https://github.com/aANAESTHESIAa/CCFEBRAS-VolcanoAlgorithmAnalisys/raw/master/KLYU2_20210224095601_21355477.png)<br>
 As we can see, sometimes algorithm work improperly causing  partial highlighting of eruption activity as on picture above(the central one).<br>
 <br>
