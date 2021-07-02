@@ -19,8 +19,8 @@ How-to-use:<br>
 <b>Step 3:</b> The marked image is opened in standart picture editor. Move the cursor to the <b>UPPER LEFT</b> corner of desired processing area, thus the expecting anomaly highlighting lies below and further to the right. The editor shows the coordinates of your cursor(left lower corner of the picture editor app). <b>Remember them</b>. First one stands for X, second - for Y coordinate.<br>
 <b>Step 4:</b> Close the picture editor.<br>
 <b>Step 5:</b> Enter the coordinates as program asks you to.<br>
-<b>Step 6:</b> Select the form of the anomaly: horizontal ellipse, vertical ellipse or diaganolly placed ellipse.<br>
-The program outputs the processed image area that you set to process.
+<b>Step 6:</b> Select the form of the anomaly: horizontal ellipse, vertical ellipse or diagonally placed ellipse.<br>
+The program outputs the processed image area that you've set to process.
 
 
 <br><br><br><br>
