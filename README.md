@@ -6,7 +6,7 @@ Input consists of 2 types of images.<br>Ones are just images of volcano:<br>
 ![Иллюстрация к проекту](https://github.com/aANAESTHESIAa/CCFEBRAS-VolcanoAlgorithmAnalisys/raw/master/KLYU2_20210224095601_21355477.jpg)<br>
 And others are the result of volcano eruption detection algorithm where the field of eruption is highlighted:<br>
 ![Иллюстрация к проекту](https://github.com/aANAESTHESIAa/CCFEBRAS-VolcanoAlgorithmAnalisys/raw/master/KLYU2_20210224095601_21355477.png)<br>
-As we can see, sometimes algorithm work improperly causing  partial highlighting of eruption activity as on picture above(the central one).<br>
+As we can see, sometimes algorithm works improperly causing partial highlighting of eruption activity as on picture above(the central one).<br>
 <br>
 Thus we need to understand, why the border was drawn this way. <br>
 For this purpose was decided to process every pixel of incorrect highlighting and to print its Luminance on it like this:<br>
