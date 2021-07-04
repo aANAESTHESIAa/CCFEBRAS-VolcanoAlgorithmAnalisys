@@ -1,3 +1,6 @@
+#  Copyright (c) 2021. Anastasia Dutchina.
+#  All rights reserved.
+
 from PIL import Image, ImageDraw, ImageFont
 
 import easygui
@@ -40,8 +43,8 @@ def autocut(inputJpg, inputPng):   #обрезка изображений
         endCutX = startCutX + 50
         endCutY = startCutY + 50
     elif answer == "4":
-        endCutX = input("Введите значение координаты Х нижнего правого пикселя для рамки обрезания изображения")
-        endCutY = input("Введите значение координаты Y нижнего правого пикселя для рамки обрезания изображения")
+        endCutX = int(input("Введите значение координаты Х нижнего правого пикселя для рамки обрезания изображения"))
+        endCutY = int(input("Введите значение координаты Y нижнего правого пикселя для рамки обрезания изображения"))
     else:
         print("Вы ввели некорректное значение")
         exit(-1)
