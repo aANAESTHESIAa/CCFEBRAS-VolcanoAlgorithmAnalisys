@@ -1,55 +1,57 @@
 #  Copyright (c) 2021. Anastasia Dutchina.
 #  All rights reserved.
 
-from PIL import Image, ImageDraw, ImageFont
-
+from PIL import Image, ImageDraw, ImageFont, ImageTk
+import tkinter as tk
 import easygui
-import subprocess
 
 
 input_file_png = easygui.fileopenbox(msg="Выберите исследуемое избражение с разметкой алгоритма", filetypes=["*.png"])
 input_file_jpg = input_file_png.rpartition('.')[0]+".jpg"
 
 
-cmd = "C:/Windows/System32/mspaint.exe "+str(input_file_png)
-print("cmd")
-print(cmd)
-process = subprocess.Popen(cmd, stdout=subprocess.PIPE, creationflags=0x08000000)
-process.wait()
-#запуск paint для определения пользователем начальной координаты рамки обрезания файла
+def get_mouse_posn(event):
+    global topy, topx
+    topx, topy = event.x, event.y
+
+
+def update_sel_rect(event):
+    global rect_id
+    global topy, topx, botx, boty
+    global selectedtopx, selectedtopy, selectedbotx, selectedboty
+    botx, boty = event.x, event.y
+    canvas.coords(rect_id, topx, topy, botx, boty)  # Update selection rect.
+    selectedtopx, selectedtopy, selectedbotx, selectedboty = topx, topy, botx, boty
+    print(selectedtopx, selectedtopy, selectedbotx, selectedboty)
+
+
+selectedtopx, selectedtopy, selectedbotx, selectedboty = 0, 0, 0, 0
+topx, topy, botx, boty = 0, 0, 0, 0
+rect_id = None
+WINDOWWIDTH, WINDOWHEIGHT = 900, 900
+window = tk.Tk()
+window.title("Select Area")
+window.geometry('%sx%s' % (WINDOWWIDTH, WINDOWHEIGHT))
+window.configure(background='grey')
+img = ImageTk.PhotoImage(Image.open(input_file_png))
+canvas = tk.Canvas(window, width=img.width(), height=img.height(),
+                   borderwidth=0, highlightthickness=0)
+canvas.pack(expand=True)
+canvas.img = img  # Keep reference in case this code is put into a function.
+canvas.create_image(0, 0, image=img, anchor=tk.NW)
+rect_id = canvas.create_rectangle(topx, topy, topx, topy,
+                                  dash=(2, 2), fill='', outline='white')
+
+canvas.bind('<Button-1>', get_mouse_posn)
+canvas.bind('<B1-Motion>', update_sel_rect)
+window.mainloop()
+
+
 def autocut(inputJpg, inputPng):   #обрезка изображений
     jpg = Image.open(inputJpg)
     png = Image.open(inputPng)
-    answer = 0
-    startCutX = 0
-    startCutY = 0
-    endCutX = 0
-    endCutY = 0
-    startCutX = int(input("Введите значение координаты Х верхнего левого пикселя для рамки обрезания изображения"))
-    startCutY = int(input("Введите значение координаты Y верхнего левого пикселя для рамки обрезания изображения"))
-    print("Каков наклон выделения аномалии? ")
-    print("1 - Эллипс наклонен горизонтально -")
-    print("2 - Эллипс наклонен вертикально | ")
-    print("3 - Эллипс наклонен диагонально (квадратная область выделения)")
-    print("4 - Задать правый нижний пиксель рамки обрезки вручную ")
-    answer = str(input())
-    if answer == "1":
-        endCutX = startCutX + 50
-        endCutY = startCutY + 30
-    elif answer == "2":
-        endCutX = startCutX + 30
-        endCutY = startCutY + 50
-    elif answer == "3":
-        endCutX = startCutX + 50
-        endCutY = startCutY + 50
-    elif answer == "4":
-        endCutX = int(input("Введите значение координаты Х нижнего правого пикселя для рамки обрезания изображения"))
-        endCutY = int(input("Введите значение координаты Y нижнего правого пикселя для рамки обрезания изображения"))
-    else:
-        print("Вы ввели некорректное значение")
-        exit(-1)
-    png.crop((startCutX, startCutY, endCutX, endCutY)).save('png_crop.png', "PNG")
-    jpg.crop((startCutX, startCutY, endCutX, endCutY)).save('jpg_crop.jpg', "JPEG")
+    png.crop((selectedtopx, selectedtopy, selectedbotx, selectedboty)).save('png_crop.png', "PNG")
+    jpg.crop((selectedtopx, selectedtopy, selectedbotx, selectedboty)).save('jpg_crop.jpg', "JPEG")
 
 
 autocut(input_file_jpg, input_file_png)
