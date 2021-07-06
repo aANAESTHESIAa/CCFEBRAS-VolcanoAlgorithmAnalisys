@@ -6,9 +6,9 @@ from PIL import Image, ImageDraw, ImageFont
 import easygui
 import subprocess
 
-input_file_jpg = easygui.fileopenbox(msg="Выберите исходное изображение", filetypes=["*.jpg"])
-input_file_png = easygui.fileopenbox(msg="Выберите изображение с разметкой алгоритма", filetypes=["*.png"])
-print(input_file_jpg)
+
+input_file_png = easygui.fileopenbox(msg="Выберите исследуемое избражение с разметкой алгоритма", filetypes=["*.png"])
+input_file_jpg = input_file_png.rpartition('.')[0]+".jpg"
 
 
 cmd = "C:/Windows/System32/mspaint.exe "+str(input_file_png)
