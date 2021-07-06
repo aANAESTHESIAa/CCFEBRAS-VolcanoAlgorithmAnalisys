@@ -22,7 +22,7 @@ def update_sel_rect(event):
     botx, boty = event.x, event.y
     canvas.coords(rect_id, topx, topy, botx, boty)  # Update selection rect.
     selectedtopx, selectedtopy, selectedbotx, selectedboty = topx, topy, botx, boty
-    print(selectedtopx, selectedtopy, selectedbotx, selectedboty)
+
 
 
 selectedtopx, selectedtopy, selectedbotx, selectedboty = 0, 0, 0, 0
