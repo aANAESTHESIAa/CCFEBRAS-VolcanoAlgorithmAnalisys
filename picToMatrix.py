@@ -11,22 +11,30 @@ input_file_jpg = input_file_png.rpartition('.')[0]+".jpg"
 
 
 def get_mouse_posn(event):
-    global topy, topx
-    topx, topy = event.x, event.y
+    global firstPointY, firstPointX
+    firstPointX, firstPointY = event.x, event.y
 
 
 def update_sel_rect(event):
     global rect_id
-    global topy, topx, botx, boty
-    global selectedtopx, selectedtopy, selectedbotx, selectedboty
-    botx, boty = event.x, event.y
-    canvas.coords(rect_id, topx, topy, botx, boty)  # Update selection rect.
-    selectedtopx, selectedtopy, selectedbotx, selectedboty = topx, topy, botx, boty
+    global firstPointY, firstPointX, secondPointX, secondPointY
+    global cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower
+    secondPointX, secondPointY = event.x, event.y
+    canvas.coords(rect_id, firstPointX, firstPointY, secondPointX, secondPointY)  # Update selection rect.
+    if firstPointX < secondPointX:                              # selection direction check
+        if firstPointY < secondPointY:
+            cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower = firstPointX, firstPointY, secondPointX, secondPointY
+        else:
+            cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower = firstPointX, secondPointY, secondPointX, firstPointY
+    elif firstPointX > secondPointX:
+        if firstPointY < secondPointY:
+            cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower = secondPointX, firstPointY, firstPointX, secondPointY
+        else:
+            cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower = secondPointX, secondPointY, firstPointX, firstPointY
 
 
-
-selectedtopx, selectedtopy, selectedbotx, selectedboty = 0, 0, 0, 0
-topx, topy, botx, boty = 0, 0, 0, 0
+cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower = 0, 0, 0, 0
+firstPointX, firstPointY, secondPointX, secondPointY = 0, 0, 0, 0
 rect_id = None
 WINDOWWIDTH, WINDOWHEIGHT = 900, 900
 window = tk.Tk()
@@ -37,9 +45,9 @@ img = ImageTk.PhotoImage(Image.open(input_file_png))
 canvas = tk.Canvas(window, width=img.width(), height=img.height(),
                    borderwidth=0, highlightthickness=0)
 canvas.pack(expand=True)
-canvas.img = img  # Keep reference in case this code is put into a function.
+canvas.img = img
 canvas.create_image(0, 0, image=img, anchor=tk.NW)
-rect_id = canvas.create_rectangle(topx, topy, topx, topy,
+rect_id = canvas.create_rectangle(firstPointX, firstPointY, firstPointX, firstPointY,
                                   dash=(2, 2), fill='', outline='white')
 
 canvas.bind('<Button-1>', get_mouse_posn)
@@ -50,8 +58,8 @@ window.mainloop()
 def autocut(inputJpg, inputPng):   #обрезка изображений
     jpg = Image.open(inputJpg)
     png = Image.open(inputPng)
-    png.crop((selectedtopx, selectedtopy, selectedbotx, selectedboty)).save('png_crop.png', "PNG")
-    jpg.crop((selectedtopx, selectedtopy, selectedbotx, selectedboty)).save('jpg_crop.jpg', "JPEG")
+    png.crop((cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower)).save('png_crop.png', "PNG")
+    jpg.crop((cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower)).save('jpg_crop.jpg', "JPEG")
 
 
 autocut(input_file_jpg, input_file_png)
@@ -72,7 +80,7 @@ data = list(preAlgImage.getdata())
 dx = 0
 dy = 0
 counter = 0
-for y in range(height):
+for y in range(height):                 # перебор пикселей
     for x in range(width):
         draw.rectangle((dx, dy, dx + 20, dy + 20), fill=data[counter])
         font = ImageFont.truetype("arial.ttf", 10)
