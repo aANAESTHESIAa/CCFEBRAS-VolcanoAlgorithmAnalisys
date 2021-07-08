@@ -5,9 +5,10 @@ from PIL import Image, ImageDraw, ImageFont, ImageTk
 import tkinter as tk
 import easygui
 
-
-input_file_png = easygui.fileopenbox(msg="Выберите исследуемое избражение с разметкой алгоритма", filetypes=["*.png"])
-input_file_jpg = input_file_png.rpartition('.')[0]+".jpg"
+input_file_png = easygui.fileopenbox(msg="Выберите исследуемое избражение с разметкой алгоритма",
+                                     filetypes=["*.png"])
+input_file_jpg = input_file_png.rpartition('.')[0] + ".jpg"
+print(input_file_jpg)
 
 
 def get_mouse_posn(event):
@@ -21,7 +22,7 @@ def update_sel_rect(event):
     global cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower
     secondPointX, secondPointY = event.x, event.y
     canvas.coords(rect_id, firstPointX, firstPointY, secondPointX, secondPointY)  # Update selection rect.
-    if firstPointX < secondPointX:                              # selection direction check
+    if firstPointX < secondPointX:  # selection direction check
         if firstPointY < secondPointY:
             cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower = firstPointX, firstPointY, secondPointX, secondPointY
         else:
@@ -55,14 +56,14 @@ canvas.bind('<B1-Motion>', update_sel_rect)
 window.mainloop()
 
 
-def autocut(inputJpg, inputPng):   #обрезка изображений
+def imageCut(inputJpg, inputPng):
     jpg = Image.open(inputJpg)
     png = Image.open(inputPng)
     png.crop((cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower)).save('png_crop.png', "PNG")
     jpg.crop((cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower)).save('jpg_crop.jpg', "JPEG")
 
 
-autocut(input_file_jpg, input_file_png)
+imageCut(input_file_jpg, input_file_png)
 
 preAlgImage = Image.open('jpg_crop.jpg')  # Открываем изображение без выделения алгоритмом
 draw = ImageDraw.Draw(preAlgImage)  # Создаем инструмент для рисования
@@ -73,14 +74,14 @@ pix = preAlgImage.load()  # Выгружаем значения пикселей
 postAlgImage = Image.open('png_crop.png')  # Открываем изображение, обработанное алгоритмом
 postAlgPixVals = list(postAlgImage.getdata())
 
-newWidth = width * 20
-newHeight = height * 20
-im = Image.new('RGB', (newWidth, newHeight), 'white')
+canvasWidth = width * 20
+canvasHeight = height * 20
+im = Image.new('RGB', (canvasWidth, canvasHeight), 'white')
 data = list(preAlgImage.getdata())
 dx = 0
 dy = 0
 counter = 0
-for y in range(height):                 # перебор пикселей
+for y in range(height):  # перебор пикселей
     for x in range(width):
         draw.rectangle((dx, dy, dx + 20, dy + 20), fill=data[counter])
         font = ImageFont.truetype("arial.ttf", 10)
@@ -97,8 +98,7 @@ for y in range(height):                 # перебор пикселей
 draw.rectangle((0, 0, 19, 19), fill=data[0])
 draw.text((1, 5), str(data[0])[1:4], 'red', font=font)
 draw = ImageDraw.Draw(im)
-im.save((input_file_png.rpartition('.')[0]).rpartition('\\')[0]+'\\results\\' + (input_file_png.rpartition('.')[0]).rpartition('\\')[2] + "_result.png", "PNG")
+im.save((input_file_png.rpartition('.')[0]).rpartition('\\')[0] + '\\results\\' +
+        (input_file_png.rpartition('.')[0]).rpartition('\\')[2] + "_result.png", "PNG")
 im.show()
-
-
 
