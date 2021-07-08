@@ -97,8 +97,7 @@ for y in range(height):                 # перебор пикселей
 draw.rectangle((0, 0, 19, 19), fill=data[0])
 draw.text((1, 5), str(data[0])[1:4], 'red', font=font)
 draw = ImageDraw.Draw(im)
-
-im.save("result.png", "PNG")
+im.save((input_file_png.rpartition('.')[0]).rpartition('\\')[0]+'\\results\\' + (input_file_png.rpartition('.')[0]).rpartition('\\')[2] + "_result.png", "PNG")
 im.show()
 
 
