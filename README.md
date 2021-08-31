@@ -1,4 +1,4 @@
-# CCFEBRAS-VolcanoAlgorithmAnalysis
+# VolcanoAlgorithmAnalysis
 This project is used for the needs of improvement of volcano eruption detection algorithm.
 
 The idea:<br>
