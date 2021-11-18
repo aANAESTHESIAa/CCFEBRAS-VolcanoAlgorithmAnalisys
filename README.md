@@ -17,7 +17,7 @@ How-to-use:<br>
 
 <b>Step 1:</b> Select the image with algorithm result you want to observe.<br>
 <b>Step 2:</b> In the window that opens, select the desired area. Close this window when you're done.<br>
-The program outputs the processed image area that you've set to process. The resulting image is saved in "result.png" file in the project folder. 
+The program outputs the processed image area that you've set to process. The resulting image is saved in result folder. 
 
 
 <br><br>
@@ -26,4 +26,4 @@ P.S. #Ru-ru
 Инструкция:<br>
 Шаг 1: Выберите размеченное изображение с результатом алгоритма, которое хотите обработать.<br>
 Шаг 2: Отмеченное изображение открывается в окне программы. Выберите область обработки на изображении. После выделения желаемой область,закройте окно программы со снимком.<br>
-Результат работы программы, содержаpщий обработанное изображение, сохраняется в папку проекта под названием result.png.<br>
+Результат работы программы, содержаpщий обработанное изображение, сохраняется в папку result.<br>
