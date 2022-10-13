@@ -11,7 +11,7 @@ input_file_jpg = input_file_png.rpartition('.')[0] + ".jpg"
 print(input_file_jpg)
 
 
-def get_mouse_posn(event):
+def get_mouse_position(event):
     global firstPointY, firstPointX
     firstPointX, firstPointY = event.x, event.y
 
@@ -51,19 +51,19 @@ canvas.create_image(0, 0, image=img, anchor=tk.NW)
 rect_id = canvas.create_rectangle(firstPointX, firstPointY, firstPointX, firstPointY,
                                   dash=(2, 2), fill='', outline='white')
 
-canvas.bind('<Button-1>', get_mouse_posn)
+canvas.bind('<Button-1>', get_mouse_position)
 canvas.bind('<B1-Motion>', update_sel_rect)
 window.mainloop()
 
 
-def imageCut(inputJpg, inputPng):
+def cut_image(inputJpg, inputPng):
     jpg = Image.open(inputJpg)
     png = Image.open(inputPng)
     png.crop((cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower)).save('png_crop.png', "PNG")
     jpg.crop((cutBoundaryLeft, cutBoundaryUpper, cutBoundaryRight, cutBoundaryLower)).save('jpg_crop.jpg', "JPEG")
 
 
-imageCut(input_file_jpg, input_file_png)
+cut_image(input_file_jpg, input_file_png)
 
 preAlgImage = Image.open('jpg_crop.jpg')  # Открываем изображение без выделения алгоритмом
 draw = ImageDraw.Draw(preAlgImage)  # Создаем инструмент для рисования
